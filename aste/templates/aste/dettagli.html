@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block head %}
+  <title>dettagli</title>
+
+  <script type="text/javascript">
+    var closingTime = new Date({{ asta.getClosingTime|date:"Y,n,j,G,i,s" }});
+    // Subtract 1 from month bc js months starts from 0
+    closingTime.setMonth(closingTime.getMonth() - 1);
+    closingTime = closingTime.getTime();
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+      // Get todays date and time
+      var now = new Date().getTime();
+      // Find the distance between now an the closingTime date
+      var distance = closingTime - now;
+      // Time calculations for days, hours, minutes and seconds
+      //var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      //var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      // Display the result in the element with id="timer"
+      document.getElementById("timer").innerHTML = "Mancano: " + minutes + " minuti " + seconds + " secondi ";
+    }, 1000);
+  </script>
+
+{% endblock %}
+{% block body %}
+  <center>
+    <header>
+      <h1> {{ asta.descrizione }} </h1>
+    </header>
+
+    <section>
+      <p> <img src="{{ asta.foto.url }}" alt="Not found" height="300" width="300"> </p>
+
+      {% if asta.getState == 0 %}
+        <p> Scaduta il: {{ asta.data_inizio }} </p>
+        <p> Prezzo di vendita: {{ asta.prezzo }} &euro;</p>
+      {% elif asta.getState == 1 %}
+        <p id="timer"></p>
+        <p> Prezzo attuale: {{ asta.prezzo }} &euro;</p>
+
+        <form method="post">
+          {% csrf_token %}
+
+          <input type="submit" value="Rialza">
+        </form>
+
+      {% elif asta.getState == 2 %}
+        <p> Inizierà: {{ asta.data_inizio }} </p>
+        <p> Prezzo di partenza: {{ asta.prezzo }} &euro; </p>
+        <form action="{% url 'aste:send_mail' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="asta_id" value="{{ asta.id }}">
+          <input type="submit" value="Invia promemoria">
+        </form>
+      {% endif %}
+    </section>
+
+    </br></br>
+    <footer>
+      <a href="{% url 'main_page' %}"> Home </a></br>
+      <a href="{% url 'aste:indice' %}"> Torna alle aste </a></br>
+    </footer>
+  </center>
+{% endblock %}

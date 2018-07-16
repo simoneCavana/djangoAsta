@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% comment %}   Main page to authenticate users. {% endcomment %}
+{% block head %}
+  <title>Login</title>
+{% endblock %}
+{% block body %}
+  <header>
+    <h1>Aste django</h1>
+    <h2>Pagina di login</h2>
+  </header>
+  <section>
+    {% if form.errors %}
+      <p>Nome utente o password errati, riprovare.</p>
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %}
+      <p>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+      </p>
+      <p>
+        {{ form.password.label_tag }}
+        {{ form.password }}
+      </p>
+      {% if next %}
+        <input type="hidden" name="next" value="{{ next }}" />
+      {% else %}
+        <!-- visita la pagina del profilo -->
+        <input type="hidden" name="next" value="/storico/" />
+      {% endif %}
+      <input type="submit" value="login" />
+    </form>
+    <p> Non hai un account? <a href="{% url 'signup' %}"> Iscriviti. </a></p>
+  </section>
+{% endblock %}

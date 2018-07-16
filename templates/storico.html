@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block head %}
+  <title>storico utente</title>
+{% endblock %}
+{% block body %}
+  <header>
+    <h3>Lista delle puntate effettuate:</h3>
+  </header>
+
+  <section>
+    {% if bids_list %}
+      <table border="1">
+        <tr>
+          <th scope="col">asta</th>
+          <th scope="col">somma</th>
+          <th scope="col">data</th>
+        </tr>
+
+        {% for bid in bids_list %}
+          <tr>
+              <td>{{ bid.asta }}</td>
+              <td>{{ bid.somma }}</td>
+              <td>{{ bid.data_puntata }}</td>
+          </tr>
+        {% endfor %}
+
+      </table>
+    {% else %}
+        <p>Non sono state effettuate puntate.</p>
+    {% endif %}
+    </br></br></br>
+  </section>
+
+  </br></br></br>
+  <footer>
+    <p> Premere <a href="{% url 'main_page' %}"> Home</a> per tornare alla pagina principale del sito.</p>
+  </footer>
+{% endblock %}
