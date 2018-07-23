@@ -73,7 +73,7 @@
 
       function ld(){
         for (i = 0; i < checkboxes.length; i++){
-          checkboxes[i].checked = sessionStorage.getItem(checkboxes[i].value) === 'true' ? true:false;
+          checkboxes[i].checked = sessionStorage.getItem(checkboxes[i].value) == 'true' ? true:false;
         }
         for(i = 0; i < radios.length; i++){
           if(radios[i].value == sessionStorage.getItem["prezzo"].value){
@@ -81,8 +81,7 @@
           }
         }
       }
-
-      window.onload() = ld;
+      window.onload = ld;
     }
   </script>
 

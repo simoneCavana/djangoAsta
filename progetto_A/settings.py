@@ -22,8 +22,10 @@ pwd:    fabioepaola
 ACTIVE
 user:   utente
 pwd:    genericapassword
+_________________________
 user:   utenteProva
 pwd:    provaesame
+_________________________
 """
 
 import os
