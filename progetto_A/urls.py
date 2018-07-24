@@ -25,7 +25,7 @@ urlpatterns = [
     # ex: /admin
     url(r'^admin/', admin.site.urls),
     # ex: /aste
-    url(r'^aste/', include('aste.urls', namespace='aste')),
+    url(r'^aste/', include(('aste.urls', 'aste'), namespace='aste')),
     # ex: /signup
     url(r'^signup/$', views.signup, name='signup'),
     # ex: /logout

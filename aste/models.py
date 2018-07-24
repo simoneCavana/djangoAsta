@@ -42,7 +42,10 @@ class Asta(models.Model):
         return self.data_inizio + datetime.timedelta(0,DURATA_ASTA)
 
 class Puntata(models.Model):
-    asta = models.ForeignKey(Asta)
+    asta = models.ForeignKey(
+        Asta,
+        on_delete=models.CASCADE,
+    )
     utente = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
