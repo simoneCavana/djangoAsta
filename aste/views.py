@@ -51,7 +51,8 @@ def dettagli(request, asta_id):
             # and request.user.has_perm('Asta.can_bid')
             asta = get_object_or_404(Asta, pk=asta_id)
             u = get_object_or_404(User, pk=request.user.id)
-            if asta.getState() == 1:
+            # controllo che l'asta sia in corso e che l'utente che rilancia non sia quello che l'ha creata
+            if asta.getState() == 1 and asta.added_by != u:
 
                 pun = Puntata()
                 pun.asta = asta
@@ -63,6 +64,8 @@ def dettagli(request, asta_id):
                 asta.prezzo = pun.somma
                 asta.save()
                 return render(request, 'aste/dettagli.html', {'asta': asta})
+            else:
+                return HttpResponseServerError("Utente creatore dell'asta non può rilanciare")
         else:
             return redirect('%s?next=%s' % (settings.LOGIN_URL, request.path))
 

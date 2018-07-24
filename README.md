@@ -15,3 +15,4 @@
 - risorse utilizzate:
   - https://www.iconfinder.com/
   - https://docs.djangoproject.com/en/2.0/
+  - https://sqlite.org/cli.html
