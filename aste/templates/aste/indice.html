@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load url_replace %}
 {% block head %}
   <title>indice</title>
 {% endblock %}
@@ -19,7 +20,7 @@
             <div class="pagination">
                 <span class="step-links">
                     {% if page_obj.has_previous %}
-                        <a href="?page={{ page_obj.previous_page_number }}">precedente</a>
+                        <a href="?{% url_replace page=page_obj.previous_page_number %}">precedente</a>
                     {% endif %}
 
                     <span class="current">
@@ -27,7 +28,7 @@
                     </span>
 
                     {% if page_obj.has_next %}
-                        <a href="?page={{ page_obj.next_page_number }}">successiva</a>
+                        <a href="?{% url_replace page=page_obj.next_page_number %}">successiva</a>
                     {% endif %}
                 </span>
             </div>
@@ -52,38 +53,10 @@
       <span style="margin-left:5em"><input type="radio" name="prezzo" value="200-500"> &euro; 200 - &euro; 500</span></br>
       <span style="margin-left:5em"><input type="radio" name="prezzo" value="500-inf"> > &euro; 500</span></br>
       </br>
-      <input type="submit" value="Filtra" onclick="save()">
+      <input type="submit" value="Filtra">
 
     </form>
   </section>
-
-  <!-- TODO:  controlla il load dalla sessione-->
-  <script type="text/javascript">
-    if (typeof(Storage) !== "undefined") {
-      var i;
-      var checkboxes = document.querySelectorAll('input[type=checkbox]');
-      var radios = document.querySelectorAll('input[type=radio]');
-
-      function save(){
-        for (i = 0; i < checkboxes.length; i++){
-          sessionStorage.setItem(checkboxes[i].name, checkboxes[i].checked);
-        }
-        sessionStorage.setItem(document.querySelector('input[name=prezzo]:checked').name, document.querySelector('input[name=prezzo]:checked').value)
-      }
-
-      function ld(){
-        for (i = 0; i < checkboxes.length; i++){
-          checkboxes[i].checked = sessionStorage.getItem(checkboxes[i].value) == 'true' ? true:false;
-        }
-        for(i = 0; i < radios.length; i++){
-          if(radios[i].value == sessionStorage.getItem["prezzo"].value){
-              radios[i].checked = true;
-          }
-        }
-      }
-      window.onload = ld;
-    }
-  </script>
 
   </br></br>
   <footer>

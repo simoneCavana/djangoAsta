@@ -24,7 +24,7 @@ class IndiceView(generic.ListView):
     def get_queryset(self):
         # seleziona solo gli elementi da request.get che iniziano con 'data_inizio' e
         # trasformo i value da stringhe a funzioni
-        filtro_data = {k: eval(v) for k,v in self.request.GET.items() if k.startswith('data_inizio')}
+        filtro_data = {k: eval(v) for k,v in self.request.GET.items() if k.startswith('data_inizio') and v.startswith('timezone.')}
         # creo un Q object
         q_objects = Q()
         # metto in OR i vari filtri
@@ -39,7 +39,7 @@ class IndiceView(generic.ListView):
 
         return Asta.objects.filter(q_objects,
             prezzo__range=(filtro_prezzo[0], filtro_prezzo[1])
-        ).order_by('data_inizio')
+        ).order_by('-data_inizio')
 
 # two different behaviour based on the request (get or post)
 def dettagli(request, asta_id):
