@@ -52,5 +52,7 @@ class Puntata(models.Model):
     )
     somma = models.FloatField()
     data_puntata = models.DateTimeField('data e ora puntata')
+    class Meta: #inner class Meta
+        unique_together = ('asta', 'somma')
     def __str__(self):
             return str(self.somma) + " " + str(self.data_puntata)

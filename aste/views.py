@@ -31,15 +31,21 @@ class IndiceView(generic.ListView):
         for key, value in filtro_data.items():
             q_objects.add(Q(**{key: value}), Q.OR)
 
-        # prende il valore per il prezzo e lo splitta in due, prima e dopo '-'
+        # prende il valore per il prezzo e lo splitta in due, prima e dopo '-', inoltre
+        # lo trasforma in float per poter effettuare un controllo
         try:
-            filtro_prezzo = (self.request.GET.get('prezzo')).split('-')
+            filtro_prezzo = list(map(float, (self.request.GET.get('prezzo')).split('-')))
         except AttributeError:
             filtro_prezzo = [0, (Asta.objects.all().aggregate(Max('prezzo')))['prezzo__max']]
+        except ValueError:
+            filtro_prezzo = 'corrupted url, not float value'
 
-        return Asta.objects.filter(q_objects,
-            prezzo__range=(filtro_prezzo[0], filtro_prezzo[1])
-        ).order_by('-data_inizio')
+        if all(isinstance(item, float) for item in filtro_prezzo):
+            return Asta.objects.filter(q_objects,
+                prezzo__range=(filtro_prezzo[0], filtro_prezzo[1])
+            ).order_by('-data_inizio')
+        else:
+            return Asta.objects.filter(q_objects,).order_by('-data_inizio')
 
 # two different behaviour based on the request (get or post)
 def dettagli(request, asta_id):
