@@ -3,6 +3,7 @@
 - requisiti:
   - python3
   - django1.1
+  - sqlite3
 
 - come usarlo da terminale:
   - git clone https://github.com/SirSimonSays/djangoAsta.git
@@ -16,6 +17,11 @@
   - python3 manage.py shell
   - python3 manage.py test aste
   - python3 manage.py help
+
+- utilizzo db:
+  - sqlite3 db.sqlite3 -> aprire il file del db
+  - .tables -> elencare le tabelle del db
+  - .schema "nome_tabella"-> visualizzare la struttura di una tabella
 
 - risorse utilizzate:
   - https://www.iconfinder.com/
